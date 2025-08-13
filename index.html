@@ -201,24 +201,32 @@
             shenyang: {
                 title: "Hometown in Shenyang",
                 description: "This is where my story began. I was born and raised in Shenyang, Liaoning Province, located in Northeast China.",
-                showMap: true
+                showMap: true,
+                mapType: "china"
             },
             hefei: {
                 title: "College Life in Hefei",
                 description: "I studied at the University of Science and Technology of China in Hefei, Anhui Province, located in Central Eastern China.",
-                showMap: true
+                showMap: true,
+                mapType: "china"
             },
             texas: {
                 title: "My American Adventure Begins",
-                description: "I moved to the US for graduate studies and spent **5 years** in Texas. I got one master degree in **biology** from UT Southwestern Medical Center, and one master degree in **computer science** from Texas A&M University."
+                description: "I moved to the US for graduate studies and spent **5 years** in Texas. I got one master degree in **biology** from UT Southwestern Medical Center, and one master degree in **computer science** from Texas A&M University.",
+                showMap: true,
+                mapType: "us"
             },
             seattle: {
                 title: "The Pacific Northwest Chapter",
-                description: "Next, I moved to the beautiful Pacific Northwest, where I called **Seattle** home for **11 years**. I loved the coffee and the evergreen scenery!"
+                description: "Next, I moved to the beautiful Pacific Northwest, where I called **Seattle** home for **11 years**. I loved the coffee and the evergreen scenery!",
+                showMap: true,
+                mapType: "us"
             },
             denver: {
                 title: "Rocky Mountain High",
-                description: "For the last **2 years**, I've been living in **Denver**. I'm enjoying the sunshine and exploring the amazing mountains."
+                description: "For the last **2 years**, I've been living in **Denver**. I'm enjoying the sunshine and exploring the amazing mountains.",
+                showMap: true,
+                mapType: "us"
             },
             china: {
                 title: "My Journey in China",
@@ -233,11 +241,17 @@
         function showJourney(location) {
             const data = journeyData[location];
             
-            const mapContent = data.showMap ? `
-                <div class="mt-6 flex justify-center">
-                    <img src="./images/china-map.png" alt="Map of China showing Shenyang and Hefei" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);">
-                </div>
-            ` : '';
+            let mapContent = '';
+            if (data.showMap) {
+                const mapImage = data.mapType === 'us' ? 'us-map.png' : 'china-map.png';
+                const mapAlt = data.mapType === 'us' ? 'Map of United States showing my journey' : 'Map of China showing Shenyang and Hefei';
+                
+                mapContent = `
+                    <div class="mt-6 flex justify-center">
+                        <img src="./images/${mapImage}" alt="${mapAlt}" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);">
+                    </div>
+                `;
+            }
             
             journeyDisplay.innerHTML = `
                 <div class="text-center">
