@@ -85,7 +85,7 @@
 
                         <div class="flex-1 w-full md:w-auto">
                             <div class="relative w-full h-full bg-white rounded-lg shadow-md p-10 flex flex-col md:flex-row justify-around items-center space-y-8 md:space-y-0 md:space-x-8">
-                                <span class="absolute top-4 left-1/2 -translate-x-1/2 text-xl font-medium text-stone-500">The United States 🇺🇸</span>
+                                <span class="absolute top-4 left-1/2 -translate-x-1/2 text-xl font-medium text-stone-500">United States 🇺🇸</span>
                                 
                                 <button onclick="showJourney('seattle')" id="btn-seattle" class="journey-item w-[120px] h-[120px] bg-white rounded-full shadow-md text-center flex items-center justify-center border-2 border-transparent focus:outline-none focus:ring-2 focus:ring-teal-400 cursor-pointer transform hover:scale-110">
                                     <span class="text-5xl">☕️</span>
@@ -199,12 +199,14 @@
     <script>
         const journeyData = {
             shenyang: {
-                title: "My Roots in Shenyang",
-                description: "This is where my story began. I was born and raised in **Shenyang, Liaoning Province, Northeast China**, which gave me a strong foundation before I embarked on my educational journey."
+                title: "Hometown in Shenyang",
+                description: "This is where my story began. I was born and raised in Shenyang, Liaoning Province, located in Northeast China.",
+                showMap: true
             },
             hefei: {
-                title: "University Life in Hefei",
-                description: "I completed my Bachelor's degree at the **University of Science and Technology of China** in **Hefei, Anhui Province, Central Eastern China**. The distance between Shenyang and Hefei is **986 miles (1588 km)**."
+                title: "College Life in Hefei",
+                description: "I studied at the University of Science and Technology of China in Hefei, Anhui Province, located in Central Eastern China.",
+                showMap: true
             },
             texas: {
                 title: "My American Adventure Begins",
@@ -231,10 +233,17 @@
         function showJourney(location) {
             const data = journeyData[location];
             
+            const mapContent = data.showMap ? `
+                <div class="mt-6 flex justify-center">
+                    <img src="./images/china-map.png" alt="Map of China showing Shenyang and Hefei" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);">
+                </div>
+            ` : '';
+            
             journeyDisplay.innerHTML = `
                 <div class="text-center">
                     <h3 class="text-2xl font-bold text-teal-600 mb-2">${data.title}</h3>
                     <p class="text-lg text-stone-700 leading-relaxed">${data.description}</p>
+                    ${mapContent}
                 </div>
             `;
 
