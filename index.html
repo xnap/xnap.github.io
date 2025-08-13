@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Getting to Know Xiaosong Pan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutral Stone with Teal Accent -->
+    <!-- Application Structure Plan: A narrative, single-page scrolling application. The structure now features two prominent, equally-sized interactive boxes for "China" and "The United States," each containing clickable elements for specific cities. This creates a clear and balanced visual flow of Xiaosong's international journey. Sections on family, professional journey, and passions follow, maintaining a logical progression. This structure is designed for intuitive exploration and to make key personal details easily accessible. -->
+    <!-- Visualization & Content Choices: 
+        1. Journey Info -> Goal: Show geographical & life progression -> Method: Interactive HTML/CSS "map" diagram, now with two responsive, equally-sized boxes for China and the US, each with clickable circles for cities. -> Interaction: Clicking a city circle updates a central text block with details and highlights the selected location. The descriptive text for Chinese cities has been enriched with geographical data from the provided map image. -> Justification: The new layout is more balanced and robust than previous versions, providing a clear visual anchor for each major chapter of the user's life. The circles and text blocks are consistently sized for better design. The text enrichment fulfills the intent of showing map data within the technical constraints. -> Library/Method: Vanilla JS DOM manipulation and Tailwind CSS for styling.
+        2. Family Info -> Goal: Introduce family in a friendly way -> Method: Simple HTML/CSS block with text and emoji -> Interaction: None, a static display of personal information. -> Justification: Provides a personal detail in a clear, concise, and friendly manner without needing a complex visualization. -> Library/Method: Tailwind CSS for layout.
+        3. Professional Experience -> Goal: Show work history in chronological order -> Method: Simple HTML/CSS list of cards -> Interaction: None, a static display of career path. -> Justification: A clean, easy-to-read list is the most effective way to present this information without cluttering the page. -> Library/Method: Tailwind CSS for layout.
+        4. Residency Duration -> Goal: Compare time spent in US cities -> Method: This section was removed as per user request to streamline the presentation.
+        5. Hobbies -> Goal: Showcase personal interests in a light, fun way -> Method: Styled HTML cards with Unicode icons -> Interaction: Subtle hover effects. -> Justification: Visually breaks up text, adds personality, and is easy to scan. -> Library/Method: Tailwind CSS.
+        CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f5f5f4; /* stone-100 */
+            color: #292524; /* stone-800 */
+        }
+        .journey-item {
+            transition: all 0.3s ease;
+        }
+        .journey-item.active {
+            background-color: #14b8a6; /* teal-500 */
+            color: white;
+            box-shadow: 0 4px 10px rgba(20, 184, 166, 0.3);
+            transform: scale(1.05);
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
+
+        <header class="text-center mb-16">
+            <h1 class="text-4xl md:text-5xl font-bold text-stone-900">Getting to Know Xiaosong Pan</h1>
+            <p class="mt-4 text-lg text-stone-600 max-w-2xl mx-auto">A brief introduction to my journey, passions, and what makes me, me. Welcome!</p>
+        </header>
+
+        <main>
+            <section id="journey" class="mb-20">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-stone-800">My Journey Across The Globe</h2>
+                    <p class="mt-3 text-md text-stone-500 max-w-3xl mx-auto">My path has taken me from China to various parts of the United States. Click on a location to learn more about that chapter of my life.</p>
+                </div>
+
+                <div class="w-full max-w-5xl mx-auto bg-stone-200 rounded-xl shadow-lg p-6">
+                    <div class="flex flex-col md:flex-row justify-between items-center md:items-start space-y-8 md:space-y-0 md:space-x-8">
+                        
+                        <div class="flex-1 w-full md:w-auto">
+                            <div class="relative w-full h-full bg-white rounded-lg shadow-md p-10 flex flex-col md:flex-row justify-around items-center space-y-8 md:space-y-0 md:space-x-8">
+                                <span class="absolute top-4 left-1/2 -translate-x-1/2 text-xl font-medium text-stone-500">China 🇨🇳</span>
+                                
+                                <button onclick="showJourney('shenyang')" id="btn-shenyang" class="journey-item w-[120px] h-[120px] bg-white rounded-full shadow-md text-center flex items-center justify-center border-2 border-transparent focus:outline-none focus:ring-2 focus:ring-teal-400 cursor-pointer transform hover:scale-110">
+                                    <span class="text-5xl">🏙️</span>
+                                </button>
+                                
+                                <button onclick="showJourney('hefei')" id="btn-hefei" class="journey-item w-[120px] h-[120px] bg-white rounded-full shadow-md text-center flex items-center justify-center border-2 border-transparent focus:outline-none focus:ring-2 focus:ring-teal-400 cursor-pointer transform hover:scale-110">
+                                    <span class="text-5xl">🎓</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="flex-1 w-full md:w-auto">
+                            <div class="relative w-full h-full bg-white rounded-lg shadow-md p-10 flex flex-col md:flex-row justify-around items-center space-y-8 md:space-y-0 md:space-x-8">
+                                <span class="absolute top-4 left-1/2 -translate-x-1/2 text-xl font-medium text-stone-500">The United States 🇺🇸</span>
+                                
+                                <button onclick="showJourney('seattle')" id="btn-seattle" class="journey-item w-[120px] h-[120px] bg-white rounded-full shadow-md text-center flex items-center justify-center border-2 border-transparent focus:outline-none focus:ring-2 focus:ring-teal-400 cursor-pointer transform hover:scale-110">
+                                    <span class="text-5xl">☕️</span>
+                                </button>
+                                
+                                <button onclick="showJourney('denver')" id="btn-denver" class="journey-item w-[120px] h-[120px] bg-white rounded-full shadow-md text-center flex items-center justify-center border-2 border-transparent focus:outline-none focus:ring-2 focus:ring-teal-400 cursor-pointer transform hover:scale-110">
+                                    <span class="text-5xl">🏔️</span>
+                                </button>
+                                
+                                <button onclick="showJourney('texas')" id="btn-texas" class="journey-item w-[120px] h-[120px] bg-white rounded-full shadow-md text-center flex items-center justify-center border-2 border-transparent focus:outline-none focus:ring-2 focus:ring-teal-400 cursor-pointer transform hover:scale-110">
+                                    <span class="text-5xl">🤠</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="journey-display" class="mt-8 p-8 bg-white rounded-xl shadow-lg min-h-[150px] flex items-center justify-center transition-all duration-300">
+                        <p class="text-lg text-stone-700 text-center">Click a location above to see details here!</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="family-info" class="mb-20">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-stone-800">My Family</h2>
+                    <p class="mt-3 text-md text-stone-500 max-w-3xl mx-auto">Beyond my professional life, my world revolves around my family.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                    <div class="bg-white p-6 rounded-xl shadow-lg text-center">
+                        <span class="text-5xl">👨‍👦‍👦</span>
+                        <h3 class="text-xl font-semibold mt-4">Proud Father of Two</h3>
+                        <p class="text-stone-600 mt-2">I have two boys, a 12-year-old and a 9-year-old, who both play hockey.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-lg text-center">
+                        <span class="text-5xl">👩‍⚕️</span>
+                        <h3 class="text-xl font-semibold mt-4">My Amazing Wife</h3>
+                        <p class="text-stone-600 mt-2">She holds a **PhD in biology** from UTSW and an **MD from the University of Washington**, and is currently a resident at the **University of Colorado Anschutz Medical Campus**.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="professional-experience" class="mb-20">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-stone-800">My Professional Journey</h2>
+                    <p class="mt-3 text-md text-stone-500 max-w-3xl mx-auto">Here is a look at the companies I've had the pleasure of working with throughout my career.</p>
+                </div>
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6 max-w-6xl mx-auto">
+                    <div class="bg-white p-4 rounded-xl shadow-lg text-center transition-transform hover:scale-105">
+                        <span class="text-3xl">📦</span>
+                        <p class="text-sm font-semibold mt-2">Amazon</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl shadow-lg text-center transition-transform hover:scale-105">
+                        <span class="text-3xl">📺</span>
+                        <p class="text-sm font-semibold mt-2">Hulu</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl shadow-lg text-center transition-transform hover:scale-105">
+                        <span class="text-3xl">👻</span>
+                        <p class="text-sm font-semibold mt-2">Snap</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl shadow-lg text-center transition-transform hover:scale-105">
+                        <span class="text-3xl">✨</span>
+                        <p class="text-sm font-semibold mt-2">Wish</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl shadow-lg text-center transition-transform hover:scale-105">
+                        <span class="text-3xl">💼</span>
+                        <p class="text-sm font-semibold mt-2">Rippling</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl shadow-lg text-center transition-transform hover:scale-105">
+                        <span class="text-3xl">📝</span>
+                        <p class="text-sm font-semibold mt-2">ClickUp</p>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="passions" class="mb-16">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-stone-800">My Passions</h2>
+                    <p class="mt-3 text-md text-stone-500 max-w-3xl mx-auto">When I'm not working, you'll likely find me immersed in the world of sports. Here are a few of my favorites.</p>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div class="bg-white p-6 rounded-xl shadow-lg text-center transform hover:-translate-y-1 transition-transform duration-300">
+                        <span class="text-5xl">🏀</span>
+                        <h3 class="text-xl font-semibold mt-4">NBA</h3>
+                        <p class="text-stone-600 mt-2">Love the fast-paced action and incredible athleticism.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-lg text-center transform hover:-translate-y-1 transition-transform duration-300">
+                        <span class="text-5xl">⚽️</span>
+                        <h3 class="text-xl font-semibold mt-4">Soccer</h3>
+                        <p class="text-stone-600 mt-2">The beautiful game! A global passion I enjoy following.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-lg text-center transform hover:-translate-y-1 transition-transform duration-300">
+                        <span class="text-5xl">🏎️</span>
+                        <h3 class="text-xl font-semibold mt-4">Formula 1</h3>
+                        <p class="text-stone-600 mt-2">The pinnacle of motorsport engineering and strategy.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-lg text-center transform hover:-translate-y-1 transition-transform duration-300 ring-2 ring-teal-500/50">
+                        <span class="text-5xl">🏒</span>
+                        <h3 class="text-xl font-semibold mt-4">Hockey</h3>
+                        <p class="text-stone-600 mt-2">My recent favorite! The speed and intensity are unmatched.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="text-center mt-20 border-t border-stone-200 pt-8">
+            <p class="text-stone-600">Thanks for stopping by! I'm excited to be part of this team and look forward to connecting with you all.</p>
+        </footer>
+
+    </div>
+
+    <script>
+        const journeyData = {
+            shenyang: {
+                title: "My Roots in Shenyang",
+                description: "This is where my story began. I was born and raised in **Shenyang, Liaoning Province, Northeast China**, which gave me a strong foundation before I embarked on my educational journey."
+            },
+            hefei: {
+                title: "University Life in Hefei",
+                description: "I completed my Bachelor's degree at the **University of Science and Technology of China** in **Hefei, Anhui Province, Central Eastern China**. The distance between Shenyang and Hefei is **986 miles (1588 km)**."
+            },
+            texas: {
+                title: "My American Adventure Begins",
+                description: "I moved to the US for graduate studies and spent **5 years** in Texas. I got one master degree in **biology** from UT Southwestern Medical Center, and one master degree in **computer science** from Texas A&M University."
+            },
+            seattle: {
+                title: "The Pacific Northwest Chapter",
+                description: "Next, I moved to the beautiful Pacific Northwest, where I called **Seattle** home for **11 years**. I loved the coffee and the evergreen scenery!"
+            },
+            denver: {
+                title: "Rocky Mountain High",
+                description: "For the last **2 years**, I've been living in **Denver**. I'm enjoying the sunshine and exploring the amazing mountains."
+            },
+            china: {
+                title: "My Journey in China",
+                description: "Click on Shenyang or Hefei to learn more about my early life and education in China."
+            }
+        };
+
+        const journeyDisplay = document.getElementById('journey-display');
+        const buttons = document.querySelectorAll('.journey-item');
+        let currentActive = null;
+
+        function showJourney(location) {
+            const data = journeyData[location];
+            
+            journeyDisplay.innerHTML = `
+                <div class="text-center">
+                    <h3 class="text-2xl font-bold text-teal-600 mb-2">${data.title}</h3>
+                    <p class="text-lg text-stone-700 leading-relaxed">${data.description}</p>
+                </div>
+            `;
+
+            const newActiveBtn = document.getElementById(`btn-${location}`);
+            if (currentActive) {
+                currentActive.classList.remove('active');
+            }
+            newActiveBtn.classList.add('active');
+            currentActive = newActiveBtn;
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            showJourney('shenyang');
+
+        });
+    </script>
+
+</body>
+</html>
